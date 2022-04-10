@@ -1,8 +1,7 @@
 import { useAuth } from "context/auth-context";
 import { FormEvent } from "react";
-const apiUrl = process.env.REACT_APP_API_URL;
 export const LoginScreen = () => {
-  const { login, user } = useAuth();
+  const { login } = useAuth();
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
