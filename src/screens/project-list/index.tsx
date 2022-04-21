@@ -8,9 +8,9 @@ import { useProjects } from "utils/project";
 import { useUsers } from "utils/user";
 import { Helmet } from "react-helmet";
 import { useUrlQueryParam } from "utils/url";
-import { useProjectsSearchParams } from "./util";
-import { Row } from "components/lib";
-export const ProjectListScreen = (props: { projectButton: JSX.Element }) => {
+import { useProjectModal, useProjectsSearchParams } from "./util";
+import { ButtonNoPadding, Row } from "components/lib";
+export const ProjectListScreen = () => {
   useDocumentTitle("项目列表", false);
 
   const [param, setParam] = useProjectsSearchParams();
@@ -21,19 +21,20 @@ export const ProjectListScreen = (props: { projectButton: JSX.Element }) => {
     retry,
   } = useProjects(useDebounce(param, 200));
   const { data: users } = useUsers();
-
+  const { open } = useProjectModal();
   return (
     <Container>
       <Row between={true}>
         <h1>项目列表</h1>
-        {props.projectButton}
+        <ButtonNoPadding onClick={open} type="link">
+          创建项目
+        </ButtonNoPadding>
       </Row>
       <SearchPanel users={users || []} param={param} setParam={setParam} />
       {error ? (
         <Typography.Text type="danger">{error.message}</Typography.Text>
       ) : null}
       <List
-        projectButton={props.projectButton}
         refresh={retry}
         loading={isLoading}
         users={users || []}
